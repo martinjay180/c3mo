@@ -139,9 +139,9 @@ angular.module('controllers', []).
         });
         
         // set interval for getting Notes
-        meetingPromise = $timeout($scope.getMeeting, 2000);
-        notePromise = $timeout($scope.getNotes, 2000);
-        questionPromise = $timeout($scope.getQuestions, 2000);
+        $scope.getMeeting();
+        $scope.getNotes();
+        $scope.getQuestions();
         
         
     });
