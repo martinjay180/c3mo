@@ -57,14 +57,14 @@ angular.module('controllers', []).
   }).
 
   /* Dashboard controller */
-  controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams, $timeout) {
-    
-    var notePromise, meetingPromise, questionPromise;
+  controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams, $timeout) {    
+    var notePromise, meetingPromise, questionPromise, elapsedTimePromise;
 
     $scope.$on('$destroy', function(){
         $timeout.cancel(notePromise);
         $timeout.cancel(meetingPromise);
         $timeout.cancel(questionPromise);
+        $timeout.cancel(elapsedTimePromise);
     });
     
     //get all the notes every few seconds
@@ -98,15 +98,26 @@ angular.module('controllers', []).
         $scope.meeting = response;
         
         // Elapsed time
-        var elapsedTimePromise;
-        var meetingStart = moment();
+        var meetingStart = moment($scope.meeting['Start Time']);
+        var meetingEnd = moment($scope.meeting['End Time']);
         var countdown = function() {
-            var diff = moment.duration(moment().diff(meetingStart));
-            $scope.elapsedTime = s.lpad(diff.hours(), 2, '0') + ':' + s.lpad(diff.minutes(), 2, '0') + ':' + s.lpad(diff.seconds(), 2, '0');
-            elapsedTimePromise = $timeout(countdown, 1000); 
+            var diffStart = moment().diff(meetingStart);
+            var diffEnd = moment().diff(meetingEnd);
+            if(diffStart < 0) {
+                $scope.elapsedTime = 'Meeting not started';
+            }
+            else if(diffEnd > 0) {
+                $scope.elapsedTime = 'Meeting ended';
+            }
+            else {
+                var duration = moment.duration(diffStart);
+                $scope.elapsedTime = s.lpad(duration.hours(), 2, '0') + ':' + 
+                    s.lpad(duration.minutes(), 2, '0') + ':' + 
+                    s.lpad(duration.seconds(), 2, '0') + ' Elapsed';
+                elapsedTimePromise = $timeout(countdown, 1000); 
+            }
         };
         countdown();
-        // Scope destroy cleanup
 
         // Attendees
         impressAPIservice.ItemCollection($scope.meeting.Attendees).success(function(response) {
