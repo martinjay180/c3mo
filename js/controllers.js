@@ -23,9 +23,18 @@ angular.module('controllers', []).
 
   /* Dashboard controller */
   controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams) {
-    
+    // Meeting
     impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
         $scope.meeting = response;
-        console.log($scope.meeting);
+
+        // Attendees
+        impressAPIservice.ItemCollection($scope.meeting.Attendees).success(function(response) {
+            $scope.attendees = Object.keys(response).map(function(k) { return response[k]; });
+        });
+        
+        // Location
+        impressAPIservice.ItemById($scope.meeting.Location).success(function(response) {
+            $scope.location = response;    
+        });
     });
   });
