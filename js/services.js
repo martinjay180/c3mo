@@ -15,7 +15,7 @@ angular.module('impress.services', []).
     impressAPI.ItemById = function(id) {
       return $http({
         method: 'GET',
-		  cache: true,
+		  cache: false,
         url: 'http://impress.staging2.clevermethod.com/cm/cms/Item/Api.aspx?action=ItemById&id=' + id
       });
     }
@@ -23,7 +23,7 @@ angular.module('impress.services', []).
     impressAPI.ItemsByType = function(id) {
       return $http({
         method: 'GET', 
-		  cache: true,
+		  cache: false,
         url: 'http://impress.staging2.clevermethod.com/cm/cms/Item/Api.aspx?action=ItemsByType&id=' + id
       });
     }
@@ -31,6 +31,7 @@ angular.module('impress.services', []).
     impressAPI.ItemCollection = function(ids) {
       return $http({
         method: 'GET', 
+        cache: false,
         url: 'http://impress.staging2.clevermethod.com/cm/cms/Item/Api.aspx?action=ItemCollection&id=' + ids
       });
     }		

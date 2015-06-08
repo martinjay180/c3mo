@@ -38,7 +38,7 @@ angular.module('controllers', []).
   /* Dashboard controller */
   controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams, $timeout) {
     
-    var notePromise;
+    var notePromise, meetingPromise;
 
     $scope.$on('$destroy', function(){
         $timeout.cancel(notePromise);
@@ -53,6 +53,14 @@ angular.module('controllers', []).
         });
         
     }
+    
+    $scope.getMeeting = function(){
+        impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
+            $scope.meeting = response;
+            meetingPromise = $timeout($scope.getMeeting, 2000);
+        });
+    }
+    
     // Meeting
     impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
         $scope.meeting = response;
@@ -68,7 +76,8 @@ angular.module('controllers', []).
         });
         
         // set interval for getting Notes
-         notePromise = $timeout($scope.getNotes, 2000);
+        meetingPromise = $timeout($scope.getMeeting, 2000);
+        notePromise = $timeout($scope.getNotes, 2000);
         
         
     });
