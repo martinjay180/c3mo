@@ -16,6 +16,15 @@
       </md-list-item>
     </md-list>
     
-    <h2>Notes</h2>
-    <div ng-repeat="note in notes">{{note.Name}}</div>
+    <div layout="row" flex>
+    <div flex>
+        <h2>Notes</h2>
+        <div ng-repeat="note in notes">{{note.Name}}</div>
+    </div>
+    <div flex>
+        <h2>Questions</h2>
+        <div ng-repeat="question in questions">{{question.Name}}</div>
+    </div>
+</div>
+
 </md-content>

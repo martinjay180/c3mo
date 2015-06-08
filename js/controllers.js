@@ -8,6 +8,9 @@ angular.module('controllers', []).
   /* Live controller */
   controller('live', function($scope, impressAPIservice, impressMediaService, $routeParams) {
     
+    $scope.addingNote = false;
+    $scope.addingQuestion = false;
+    
     $scope.addNewNote = function(){
         var data = new Object();
         data.type = "6495c5dd-1903-4f2b-8484-081cc8b69951";
@@ -16,9 +19,27 @@ angular.module('controllers', []).
         data.ReferringItemId = $scope.meeting.Id;
         data.ReferringFieldId = 23100;
         console.log(data);
+        $scope.addingNote = true;
         impressAPIservice.InsertItem(data).success(function(response){
+            $scope.addingNote = false;
             console.log(response);
             $scope.newNote = "";
+        });        
+    }
+    
+    $scope.addNewQuestion = function(){
+        var data = new Object();
+        data.type = "6F78342F-F38D-4A0D-AE45-0700398B8FA9";
+        data.Name = $scope.newQuestion
+        data.Description = "This is my question!";
+        data.ReferringItemId = $scope.meeting.Id;
+        data.ReferringFieldId = 23102;
+        console.log(data);
+        $scope.addingQuestion = true;
+        impressAPIservice.InsertItem(data).success(function(response){
+            console.log(response);
+            $scope.newQuestion = "";
+            $scope.addingQuestion = false;
         });        
     }
     
@@ -37,11 +58,13 @@ angular.module('controllers', []).
 
   /* Dashboard controller */
   controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams, $timeout) {
-    var notePromise, meetingPromise;
+    
+    var notePromise, meetingPromise, questionPromise;
 
     $scope.$on('$destroy', function(){
         $timeout.cancel(notePromise);
         $timeout.cancel(meetingPromise);
+        $timeout.cancel(questionPromise);
     });
     
     //get all the notes every few seconds
@@ -50,6 +73,15 @@ angular.module('controllers', []).
             console.log(response);
             $scope.notes = Object.keys(response).map(function(k) { return response[k]; });   
             notePromise = $timeout($scope.getNotes, 2000);
+        });
+        
+    }
+    
+    $scope.getQuestions = function(){
+        impressAPIservice.ItemCollection($scope.meeting["Meeting Questions"]).success(function(response) {
+            console.log(response);
+            $scope.questions = Object.keys(response).map(function(k) { return response[k]; });   
+            questionPromise = $timeout($scope.getQuestions, 2000);
         });
         
     }
@@ -97,6 +129,9 @@ angular.module('controllers', []).
         
         // set interval for getting Notes
         meetingPromise = $timeout($scope.getMeeting, 2000);
-        notePromise = $timeout($scope.getNotes, 2000);       
+        notePromise = $timeout($scope.getNotes, 2000);
+        questionPromise = $timeout($scope.getQuestions, 2000);
+        
+        
     });
   });
