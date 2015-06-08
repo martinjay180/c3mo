@@ -6,13 +6,17 @@ angular.module('c3mo', [
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.
-    when("/dashboard", {
+    when("/dashboard/:meeting_id", {
         templateUrl: "html/dashboard.html",
         controller: "dashboard"
     }).
-    when("/live", {
+    when("/live/:meeting_id", {
         templateUrl: "html/live.html",
         controller: "live"
+    }).
+    when("/meetings", {
+        templateUrl: "html/meetings.html",
+        controller: "meetings"
     }).
     otherwise({
         redirectTo: '/dashboard'

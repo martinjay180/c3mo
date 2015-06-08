@@ -6,24 +6,26 @@ angular.module('controllers', []).
   }).
 
   /* Live controller */
-  controller('live', function($scope, impressAPIservice, impressMediaService) {
+  controller('live', function($scope, impressAPIservice, impressMediaService, $routeParams) {
+    impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
+        $scope.meeting = response;
+        console.log($scope.meeting);
+    });
+  }).
 
+  /* Live controller */
+  controller('meetings', function($scope, impressAPIservice, impressMediaService) {
+    impressAPIservice.ItemsByType(12025).success(function (response) {
+        console.log(response);
+        $scope.meetings = Object.keys(response).map(function(k) { return response[k] });;
+    });
   }).
 
   /* Dashboard controller */
-  controller('dashboard', function($scope, impressAPIservice, impressMediaService) {
-    $scope.nameFilter = null;
-    //$scope.items = [];
-    $scope.searchFilter = function (item) {
-        var re = new RegExp($scope.nameFilter, 'i');
-        return !$scope.nameFilter || re.test(item.Title) || re.test(item.TagList);
-    };
-	
-	$scope.FirstImage = function(item) {
-		return impressMediaService.FirstImage(item);
-	     }
-
-    impressAPIservice.ItemsByType(6).success(function (response) {
-        $scope.items = Object.keys(response).map(function(k) { return response[k] });;
+  controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams) {
+    
+    impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
+        $scope.meeting = response;
+        console.log($scope.meeting);
     });
   });

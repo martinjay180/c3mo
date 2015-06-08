@@ -26,9 +26,8 @@
 
 <body layout="row" flex>
     <div layout="column" flex>
-        <md-toolbar layout="row" layout-align="start center" ng-controller="toolbar">
-            <md-button ng-href="/dashboard">Dashboard</md-button>
-            <md-button ng-href="/live">Live</md-button>
+        <md-toolbar layout="row" layout-align="start center" layout-padding ng-controller="toolbar">
+            <md-button ng-href="/meetings">Meetings</md-button>
         </md-toolbar>
         <md-content layout-align="center" flex>
             <ng-view></ng-view>
