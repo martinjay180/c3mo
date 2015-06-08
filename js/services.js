@@ -2,6 +2,15 @@ angular.module('impress.services', []).
   factory('impressAPIservice', function($http) {
 
     var impressAPI = {};
+    
+    impressAPI.InsertItem = function(formData){
+        return $http({
+            method: 'POST',
+            data: $.param(formData),
+            url: 'http://10.10.0.177:81/Item/Api.aspx?action=InsertItem&id=1',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        });
+    }
 
     impressAPI.ItemById = function(id) {
       return $http({
