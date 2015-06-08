@@ -37,7 +37,6 @@ angular.module('controllers', []).
 
   /* Dashboard controller */
   controller('dashboard', function($scope, impressAPIservice, impressMediaService, $routeParams, $timeout) {
-    
     var notePromise, meetingPromise;
 
     $scope.$on('$destroy', function(){
@@ -65,10 +64,30 @@ angular.module('controllers', []).
     // Meeting
     impressAPIservice.ItemById($routeParams.meeting_id).success(function (response) {
         $scope.meeting = response;
+        
+        // Elapsed time
+        var elapsedTimePromise;
+        var meetingStart = moment();
+        var countdown = function() {
+            var diff = moment.duration(moment().diff(meetingStart));
+            $scope.elapsedTime = s.lpad(diff.hours(), 2, '0') + ':' + s.lpad(diff.minutes(), 2, '0') + ':' + s.lpad(diff.seconds(), 2, '0');
+            elapsedTimePromise = $timeout(countdown, 1000); 
+        };
+        countdown();
+        // Scope destroy cleanup
 
         // Attendees
         impressAPIservice.ItemCollection($scope.meeting.Attendees).success(function(response) {
-            $scope.attendees = Object.keys(response).map(function(k) { return response[k]; });
+            $scope.attendees = Object.keys(response).map(function(k, index) { 
+                var responseAttendee = response[k];
+                return new function() {
+                    this.firstName = responseAttendee['First Name'];
+                    this.lastName = responseAttendee['Last Name'];
+                    this.fullName = this.firstName + ' ' + this.lastName;
+                    this.email = responseAttendee['Email'];
+                    this.icon = 'http://lorempixel.com/50/50/people?' + index;
+                };
+            });
         });
         
         // Location
@@ -78,8 +97,6 @@ angular.module('controllers', []).
         
         // set interval for getting Notes
         meetingPromise = $timeout($scope.getMeeting, 2000);
-        notePromise = $timeout($scope.getNotes, 2000);
-        
-        
+        notePromise = $timeout($scope.getNotes, 2000);       
     });
   });

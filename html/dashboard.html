@@ -1,7 +1,21 @@
-<h1>{{meeting.Name}}</h1>
-<div ng-repeat="attendee in attendees">{{ attendee.Name }}</div>
-<div>{{ location.Name }}</div>
-
-
-<h2>Notes</h2>
-<div ng-repeat="note in notes">{{note.Name}}</div>
+<md-content layout-padding>
+    <h1>{{meeting.Name}}</h1>
+    
+    <md-subheader class="md-no-sticky">Details</md-subheader>
+    <h3>{{ location.Name }}</h3>
+    <div>{{ elapsedTime }} Elapsed</div>
+    
+    <md-subheader class="md-no-sticky">Attendees</md-subheader>
+    <md-list>
+      <md-list-item ng-repeat="attendee in attendees" class="md-2-line contact-item">
+        <img ng-src="{{ attendee.icon }}" alt="{{ attendee.fullName }}" class="md-avatar" />
+        <div class="md-list-item-text compact">
+          <h3>{{ attendee.fullName }}</h3>
+          <p>{{ attendee.email }}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+    
+    <h2>Notes</h2>
+    <div ng-repeat="note in notes">{{note.Name}}</div>
+</md-content>
