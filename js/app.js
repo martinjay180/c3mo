@@ -19,7 +19,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
         controller: "meetings"
     }).
     otherwise({
-        redirectTo: '/dashboard'
+        redirectTo: '/meetings'
     });
     
     $locationProvider.html5Mode(true);
