@@ -1,7 +1,8 @@
 angular.module('c3mo', [
   'impress.services',
   'controllers',
-  'ngRoute'
+  'ngRoute',
+  'ngMaterial'
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.
