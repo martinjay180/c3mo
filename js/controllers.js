@@ -42,6 +42,7 @@ angular.module('controllers', []).
 
     $scope.$on('$destroy', function(){
         $timeout.cancel(notePromise);
+        $timeout.cancel(meetingPromise);
     });
     
     //get all the notes every few seconds
