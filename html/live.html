@@ -4,9 +4,12 @@
 
 <div layout=column layout-padding>
     <div flex>
-        <div ng-show="!addingNote">
-            <input type="text" ng-model="newNote">
-            <md-button ng-click="addNewNote()">Add Note</md-button>
+        <div ng-show="!addingNote">            
+			<md-input-container flex>
+				<label>Add Note</label>
+			    <textarea ng-model="newNote" columns="1" md-maxlength="500"></textarea>
+			</md-input-container>
+			<md-button ng-click="addNewNote()">Add Note</md-button>
         </div>
         <div ng-show="addingNote">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -14,8 +17,11 @@
     </div>
     <div flex>
         <div ng-show="!addingQuestion">
-            <input type="text" ng-model="newQuestion">
-            <md-button ng-click="addNewQuestion()">Add Question</md-button>
+			<md-input-container flex>
+				<label>Add Question</label>
+			    <textarea ng-model="newQuestion" columns="1" md-maxlength="500"></textarea>
+			</md-input-container>
+			<md-button ng-click="addNewQuestion()">Add Question</md-button>
         </div>
         <div ng-show="addingQuestion">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>

@@ -1,30 +1,41 @@
-<md-content layout-padding>
-    <h1>{{meeting.Name}}</h1>
-    
-    <md-subheader class="md-no-sticky">Details</md-subheader>
-    <h3>{{ location.Name }}</h3>
-    <div>{{ elapsedTime }}</div>
-    
-    <md-subheader class="md-no-sticky">Attendees</md-subheader>
-    <md-list>
-      <md-list-item ng-repeat="attendee in attendees" class="md-2-line contact-item">
-        <img ng-src="{{ attendee.icon }}" alt="{{ attendee.fullName }}" class="md-avatar" />
-        <div class="md-list-item-text compact">
-          <h3>{{ attendee.fullName }}</h3>
-          <p>{{ attendee.email }}</p>
-        </div>
-      </md-list-item>
-    </md-list>
-    
-    <div layout="row" flex>
-    <div flex>
-        <h2>Notes</h2>
-        <div ng-repeat="note in notes">{{note.Name}}</div>
+<div layout="row" layout-fill>
+    <div flex="60" layout-fill>
+        <md-content>
+            <div layout="row" layout-margin>
+            <div layout="column" layout-align="center start" flex class="tile">
+                <div class="md-headline">{{meeting.Name}}</div>
+				<div class="md-title">{{meeting.Description}}</div>
+                <div class="md-subhead">{{ location.Name }}</div>
+            </div>
+            <div layout layout-align="center center" flex class="tile">
+                <div>{{ elapsedTime }}</div>
+            </div>
+            </div>
+            <div layout="row" layout-margin>
+                <div flex class="tile">
+                <md-list>
+                    <md-list-item ng-repeat="attendee in attendees" class="md-2-line contact-item">
+                        <img ng-src="{{ attendee.icon }}" alt="{{ attendee.fullName }}" class="md-avatar" />
+                        <div class="md-list-item-text compact">
+                            <h3>{{ attendee.fullName }}</h3>
+                            <p>{{ attendee.email }}</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                    </div>
+                <div flex class="tile">
+                <h2>Questions</h2>
+    <div ng-repeat="question in questions">{{question.Name}}</div>
+            </div>
+            </div>
+            
+        </md-content>
     </div>
-    <div flex>
-        <h2>Questions</h2>
-        <div ng-repeat="question in questions">{{question.Name}}</div>
+    <div flex="40">
+        <div layout-margin class="tile">
+        <md-content>
+            <div ng-repeat="note in notes">{{note.Name}}</div>
+        </md-content>
+        </div>
     </div>
 </div>
-
-</md-content>
